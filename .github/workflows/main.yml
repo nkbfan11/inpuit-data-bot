@@ -1,0 +1,119 @@
+
+var  token  = 6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow
+
+fungsi  doPost ( e )  {
+  // Pastikan untuk hanya membalas permintaan json
+  if ( e .postData .type == " application / json" ) {   
+    
+    // Parsing pembaruan yang dikirim dari Telegram
+    var  pembaruan  =  JSON . parse ( e .postData .isi ) ; _ _
+
+    // Buat instance bot kami yang meneruskan pembaruan
+    var  bot  =  Bot baru  (6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow  ) ; 
+    
+    // Membangun perintah
+    var  bus  =  CommandBus baru  ( ) ;
+    bis . pada ( / \/ mulai / ,  fungsi  ( )  {
+      ini . replyToSender ( "Selamat! Berhasil!" ) ;
+    } ) ;
+    
+    bis . pada ( / \/ lelucon \s * ( [ A-Za-z0-9_ ] + ) ? \s * ( [ A-Za-z0-9_ ] + ) ? / ,  randomJoke ) ;
+    
+    // Daftarkan bus perintah
+    bot . daftar ( bis ) ;
+    
+    // Jika pembaruan valid, proseslah
+    jika  ( perbarui )  {
+      bot . proses ( ) ;
+    }   
+  }      
+}
+
+ set fungsiWebhook ( )  {
+  var  bot  =  Bot baru  ( token , {6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow } ) ; 
+  var  hasil  =  bot . permintaan ( 'setWebhook' ,  {
+    url : // publikasikan aplikasi Anda dan masukkan URL /excec Anda di sini
+  } ) ;
+  
+  Pencatat . log ( hasil ) ;
+}
+
+fungsi  randomJoke ( nama ,  nama keluarga )  {
+  var  Nama Depan  =  nama  ||  batal ;
+  var  Nama Belakang  =  nama keluarga  ||  batal ;
+      
+  var  url  =  'http://api.icndb.com/jokes/random?escape=javascript' ;
+  
+  jika  ( Nama Depan )  url  +=  '&Nama Depan='  +  Nama Depan ;
+  jika  ( Nama Belakang )  url  +=  '&Nama Belakang='  +  Nama Belakang ;
+  
+  var  data  =  JSON . parsing ( UrlFetchApp .fetch ( url ) .getContentText ( ) ) ; _ _
+
+  ini . replyToSender ( data.nilai.lelucon ) ; _ _ _ _
+}
+
+fungsi  Bot  ( 6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow ,  perbarui )  {
+  ini . tanda  =  tanda ;
+  ini . perbarui  =  perbarui ;
+  ini . penangan  =  [ ] ;
+}
+
+Bot . prototipe . register  =  fungsi  (  penangan )  {
+  ini . penangan . dorong ( penangan ) ;
+}
+
+Bot . prototipe . proses  =  fungsi  ( )  {  
+  untuk  ( var  i  dalam  hal ini . penangan )  {
+    var  acara  =  ini . penangan [ i ] ;
+    var  hasil  =  peristiwa . kondisi ( ini ) ;
+    jika  ( hasil )  {
+       acara kembali . tangani ini ) ; _
+    }
+  }
+}
+
+Bot . prototipe . permintaan  =  fungsi  ( metode ,  data )  {
+   opsi  var =  {
+    'metode' : 'posting' ,
+    'Tipe Konten' : 'aplikasi/json' ,
+    'muatan' : JSON . merangkai ( data )
+  } ;
+  
+  var  respons  =  UrlFetchApp . ambil ( 'https://api.telegram.org/bot'  + ini  .token + '  /' + metode , opsi ) ;    
+    
+  if  ( respon .getResponseCode ( ) == 200 ) { _   
+    kembalikan  JSON . parse ( respon .getContentText ( ) ) ; _
+  }
+  
+  kembali  salah ;
+}
+
+Bot . prototipe . replyToSender  =  fungsi  ( teks )  {
+  kembalikan  ini . permintaan ( 'kirim Pesan' ,  {
+    'chat_id' : ini . memperbarui . pesan . dari . pengenal ,
+    'teks' : teks
+  } ) ;
+}
+
+fungsi  Bus Perintah ( )  {
+  ini . perintah  =  [ ] ;
+}
+
+Bus Komando . prototipe . aktif  =  fungsi  ( regexp ,  panggilan balik )  {
+  ini . perintah . push ( { 'regexp' : regexp ,  'panggilan balik' : panggilan balik } ) ;
+}
+
+Bus Komando . prototipe . kondisi  =  fungsi  ( bot )  {
+   bot kembali . memperbarui . pesan . teks . charAt ( 0 )  ===  '/' ;
+}
+
+Bus Komando . prototipe . menangani  =  fungsi  ( bot )  {  
+  untuk  ( var  i  dalam  hal ini . perintah )  {
+    var  cmd  =  ini . perintah [ saya ] ;
+    var  token  =  cmd . regexp . exec ( bot . update . pesan . teks ) ;
+    jika  ( token  !=  null )  {
+      kembalikan  cmd . panggilan balik . terapkan ( bot ,  token . splice ( 1 ) ) ;
+    }
+  }
+   bot kembali . replyToSender ( "Perintah tidak valid" ) ;
+}
