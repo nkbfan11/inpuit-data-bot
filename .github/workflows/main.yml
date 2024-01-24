@@ -1,5 +1,5 @@
 
-var  token  = 6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow
+var  token  = 6881032071:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow
 
 fungsi  doPost ( e )  {
   // Pastikan untuk hanya membalas permintaan json
@@ -9,7 +9,7 @@ fungsi  doPost ( e )  {
     var  pembaruan  =  JSON . parse ( e .postData .isi ) ; _ _
 
     // Buat instance bot kami yang meneruskan pembaruan
-    var  bot  =  Bot baru  (6625163046:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow  ) ; 
+    var  bot  =  Bot baru  (6881032071:AAEpqjvd4GfVMrj0gUYA_wFse9PxY6tbTow  ) ; 
     
     // Membangun perintah
     var  bus  =  CommandBus baru  ( ) ;
